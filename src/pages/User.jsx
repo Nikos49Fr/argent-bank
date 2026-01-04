@@ -1,14 +1,28 @@
+import UserHeader from '../components/UserHeader';
+import { useGetUserProfileQuery } from '../services/api';
+
 export default function User() {
+    const { data, isLoading, error } = useGetUserProfileQuery();
+
+    if (isLoading) {
+        return (
+            <main className="main bg-dark">
+                <p>Loading...</p>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="main bg-dark">
+                <p>Erreur de chargement</p>
+            </main>
+        );
+    }
+
     return (
         <main className="main bg-dark">
-            <div className="header">
-                <h1>
-                    Welcome back
-                    <br />
-                    Tony Jarvis!
-                </h1>
-                <button className="edit-button">Edit Name</button>
-            </div>
+            <UserHeader profile={data?.body} />
             <h2 className="sr-only">Accounts</h2>
             <section className="account">
                 <div className="account-content-wrapper">

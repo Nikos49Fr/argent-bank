@@ -1,12 +1,31 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useLoginMutation } from '../services/api';
+import { setToken, setRememberFlag } from '../features/auth/authSlice';
 
 export default function Signin() {
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [rememberState, setRememberState] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // authentification ici plus tard
-        navigate('/user');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [login, { isLoading, error }] = useLoginMutation();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await login({ email, password }).unwrap();
+            const token = res.body.token;
+            dispatch(setToken(token));
+            dispatch(setRememberFlag(rememberState));
+            if (rememberState) localStorage.setItem('token', token);
+            else localStorage.removeItem('token');
+            navigate('/user');
+        } catch (err) {
+            // err.data.message dispo pour affichage
+        }
     };
 
     return (
@@ -17,17 +36,39 @@ export default function Signin() {
                 <form onSubmit={handleSubmit}>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" />
+                        <input
+                            type="text"
+                            id="username"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" />
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
                     <div className="input-remember">
-                        <input type="checkbox" id="remember-me" />
+                        <input
+                            type="checkbox"
+                            id="remember-me"
+                            checked={rememberState}
+                            onChange={(e) => setRememberState(e.target.checked)}
+                        />
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
-                    <button type="submit" className="sign-in-button">
+                    {error?.data?.message && (
+                        <p className="error">{error.data.message}</p>
+                    )}
+                    <button
+                        type="submit"
+                        className="sign-in-button"
+                        disabled={isLoading}
+                    >
                         Sign In
                     </button>
                 </form>

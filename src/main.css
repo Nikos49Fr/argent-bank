@@ -54,7 +54,10 @@ body,
 
 .main-nav-item {
     text-decoration: none;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
+}
+.main-nav-item i {
+    margin-right: 0.25rem;
 }
 
 .main-nav-item:hover {
@@ -173,6 +176,7 @@ body,
     margin: 0 auto;
     margin-top: 3rem;
     padding: 2rem;
+    margin-bottom: 2rem;
 }
 
 .sign-in-icon {
@@ -252,12 +256,43 @@ body,
     flex: 1;
 }
 
+.user-info {
+    box-sizing: border-box;
+    background-color: white;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
 .edit-button {
     border-color: #00bc77;
     background-color: #00bc77;
     color: #fff;
     font-weight: bold;
-    padding: 10px;
+    padding: 8px;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+.edit-name-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.edit-name-actions .edit-button {
+    flex: 1;
+}
+
+.input-wrapper input[readonly],
+.input-wrapper input:disabled {
+    background-color: #e7e7e7;
+    color: #9e9e9e;
+    border: solid #9e9e9e 1px;
+    border-radius: 3px;
+    cursor: not-allowed;
 }
 
 .header {
