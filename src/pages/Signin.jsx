@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLoginMutation } from '../services/api';
 import { setToken } from '../features/auth/authSlice';
 
 export default function Signin() {
+    const token = useSelector((state) => state.auth.token);
+    if (token) return <Navigate to="/user" replace />;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setrememberMe] = useState(false);
