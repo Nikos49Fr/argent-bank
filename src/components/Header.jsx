@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetUserProfileQuery } from '../services/api';
 import { logout } from '../features/auth/authSlice';
-import { resetUser } from '../features/user/userSlice';
+import { api } from '../services/api';
 import logo from '../assets/img/argentBankLogo.png';
 
 export default function Header() {
@@ -10,14 +10,12 @@ export default function Header() {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
 
-    // Récupère le profil seulement si un token est présent (RTK Query dédupliquera avec la page User)
     const { data } = useGetUserProfileQuery(undefined, { skip: !token });
     const userName = data?.body?.userName;
 
     const handleLogout = () => {
         dispatch(logout());
-        dispatch(resetUser());
-        localStorage.removeItem('token');
+        dispatch(api.util.resetApiState());
         navigate('/');
     };
 

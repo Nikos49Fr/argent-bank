@@ -34,7 +34,6 @@ export default function UserHeader({ profile }) {
                         <div className="input-wrapper">
                             <label htmlFor="username">User name</label>
                             <input
-                                type="text"
                                 autoFocus
                                 id="username"
                                 value={newUserName}
