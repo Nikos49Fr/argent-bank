@@ -53,7 +53,7 @@ paths:
 
     /transactions/{transactionId}:
         put:
-            summary: Update a transaction (category, note)
+            summary: Update metadata for a transaction (category, note)
             security:
                 - bearerAuth: []
             parameters:
