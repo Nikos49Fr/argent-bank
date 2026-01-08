@@ -30,11 +30,27 @@ paths:
                 '500':
                     description: Server error
 
-    /transactions:
+    /accounts/{accountId}/transactions:
         get:
             summary: List transactions
             security:
                 - bearerAuth: []
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+                - name: month
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                - name: year
+                  in: query
+                  required: true
+                  schema:
+                      type: string
             responses:
                 '200':
                     description: Transactions retrieved
@@ -52,7 +68,7 @@ paths:
                     description: Server error
 
     /transactions/{transactionId}:
-        put:
+        patch:
             summary: Update metadata for a transaction (category, note)
             security:
                 - bearerAuth: []
