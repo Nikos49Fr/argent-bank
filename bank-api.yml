@@ -68,6 +68,29 @@ paths:
                     description: Server error
 
     /transactions/{transactionId}:
+        get:
+            summary: Get transaction details
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: transactionId
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Transaction retrieved
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Transaction'
+                '401':
+                    description: Invalid or expired token
+                '404':
+                    description: Transaction not found
+                '500':
+                    description: Server error
         patch:
             summary: Update metadata for a transaction (category, note)
             security:

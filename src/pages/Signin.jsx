@@ -24,8 +24,8 @@ export default function Signin() {
             const res = await login({ email, password }).unwrap();
             const token = res.body.token;
             dispatch(setToken(token));
-            if (rememberMe) localStorage.setItem('token', token);
-            else localStorage.removeItem('token');
+            if (rememberMe) sessionStorage.setItem('token', token);
+            else sessionStorage.removeItem('token');
             navigate('/user');
         } catch (err) {
             if (!err?.data?.message) {
